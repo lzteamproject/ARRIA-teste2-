@@ -9,7 +9,9 @@ body {
 }
 
 /* Títulos em fonte Serifada elegante */
-h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
+h1, h2, h3, .logo {
+    font-family: 'Lisu Bosa', serif;
+}
 
 /* --- CABEÇALHO (Smart Header) --- */
 header {
@@ -594,3 +596,4 @@ body.cadastro-body {
 }
 .btn-google-pill:hover { background-color: #f1f1f1; }
 .btn-google-pill i { font-size: 20px; }
+
