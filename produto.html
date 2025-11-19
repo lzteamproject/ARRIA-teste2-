@@ -23,15 +23,19 @@
         </a>
 
         <div class="user-actions">
-            <div class="user-item" id="btn-login">
-                <i class="fa-regular fa-user" id="user-icon"></i>
-                <span id="user-name">Bem vindo!<br><strong>Fazer Login</strong></span>
-            </div>
-            <div class="cart-item">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span>valor total<br><strong>R$: 0,00</strong></span>
-            </div>
-        </div>
+    <div class="user-item">
+        <i class="fa-regular fa-user" id="user-icon"></i>
+        <span id="user-name">
+            Bem vindo! <strong id="btn-login" style="cursor: pointer;">Login</strong>
+            <br>
+            <a href="cadastro.html" style="font-size: 10px; color: #4A707A; text-decoration: none;">ou Cadastre-se</a>
+        </span>
+    </div>
+    <div class="cart-item">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span>valor total<br><strong>R$: 0,00</strong></span>
+    </div>
+</div>
     </header>
 
     <main>
@@ -128,24 +132,20 @@
 
         window.onload = function () {
             google.accounts.id.initialize({
-                client_id: "351565793574-4mondvcn85i047g1c1f5hqih4skbau3j.apps.googleusercontent.com", // SEU ID CONFIGURADO
+                client_id: "SEU_CLIENT_ID_DO_GOOGLE_AQUI", // <--- IMPORTANTE: Coloque seu ID aqui
                 callback: handleCredentialResponse,
                 auto_select: false,
                 cancel_on_tap_outside: true
             });
         }
 
-        // Adiciona o evento de clique no botão de login
-        const btnLogin = document.getElementById("btn-login");
-        if (btnLogin) {
-            btnLogin.addEventListener("click", () => {
-                google.accounts.id.prompt((notification) => {
-                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                        console.log("Login fechado ou não exibido. Motivo: ", notification.getNotDisplayedReason());
-                    }
-                });
+        document.getElementById("btn-login").addEventListener("click", () => {
+            google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    console.log("Login fechado ou não exibido");
+                }
             });
-        }
+        });
     </script>
 </body>
 </html>
