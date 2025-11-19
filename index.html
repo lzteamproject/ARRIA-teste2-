@@ -101,36 +101,46 @@
 
         // --- LÓGICA DO LOGIN GOOGLE ---
         function handleCredentialResponse(response) {
+            // Decodifica o token JWT retornado pelo Google
             const data = jwt_decode(response.credential);
             const userName = document.getElementById("user-name");
             const userIcon = document.getElementById("user-icon");
+            const btnLogin = document.getElementById("btn-login");
 
-            // Atualiza nome e foto
+            // Atualiza a interface com os dados do usuário
             userName.innerHTML = `Bem vindo!<br><strong>${data.given_name}</strong>`;
+            
             if(userIcon) {
+                // Substitui o ícone pela foto de perfil
                 userIcon.outerHTML = `<img src="${data.picture}" class="profile-pic">`;
             }
-            console.log("Usuário logado: " + data.name);
+            
+            console.log("Usuário logado com sucesso: " + data.name);
+            // Opcional: Remover o evento de clique após logar para evitar abrir o prompt novamente
+            // btnLogin.style.pointerEvents = "none"; 
         }
 
         window.onload = function () {
             google.accounts.id.initialize({
-                client_id: "351565793574-4mondvcn85i047g1c1f5hqih4skbau3j.apps.googleusercontent.com", // <--- IMPORTANTE: Coloque seu ID aqui
+                client_id: "351565793574-4mondvcn85i047g1c1f5hqih4skbau3j.apps.googleusercontent.com", // SEU ID CONFIGURADO
                 callback: handleCredentialResponse,
                 auto_select: false,
                 cancel_on_tap_outside: true
             });
         }
 
-        document.getElementById("btn-login").addEventListener("click", () => {
-            google.accounts.id.prompt((notification) => {
-                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
-                    console.log("Login fechado ou não exibido");
-                }
+        // Adiciona o evento de clique no botão de login
+        const btnLogin = document.getElementById("btn-login");
+        if (btnLogin) {
+            btnLogin.addEventListener("click", () => {
+                google.accounts.id.prompt((notification) => {
+                    if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                        console.log("Login fechado ou não exibido. Motivo: ", notification.getNotDisplayedReason());
+                    }
+                });
             });
-        });
+        }
     </script>
 
 </body>
-
 </html>
