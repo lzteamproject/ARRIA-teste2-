@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arria - Cadastro</title>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css"> 
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
+</head>
+<body class="cadastro-body">
+
+    <div class="background-image"></div>
+
+    <div class="cadastro-card-dark">
+        <h1>Cadastro</h1>
+        
+        <form id="form-cadastro"> 
+            
+            <label class="label-dark">Nome</label>
+            <input type="text" id="nome" class="input-pill" placeholder="Seu nome completo" required>
+            
+            <label class="label-dark">Email</label>
+            <div class="email-group">
+                <input type="email" id="email" class="input-pill" placeholder="seuemail@exemplo.com" required>
+                <button type="submit" class="btn-circle-arrow">
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <label class="label-dark">CPF</label>
+            <input type="text" id="cpf" class="input-pill" placeholder="000.000.000-00" required>
+            
+            <div class="bottom-inputs">
+                <input type="text" id="ddd" class="input-pill input-small" placeholder="DDD">
+                <input type="text" id="telefone" class="input-pill input-wide" placeholder="Telefone">
+            </div>
+        </form>
+
+        <div class="google-login-container">
+            <p class="divider-text">ou</p>
+            <button type="button" class="btn-google-pill" id="btn-google-register">
+                <i class="fa-brands fa-google"></i> Continuar com Google
+            </button>
+        </div>
+        
+        <div class="back-link">
+            <a href="index.html">Voltar para Home</a>
+        </div>
+    </div>
+
+    <script>
+        // --- LÓGICA DE CADASTRO LOCAL ---
+        const form = document.getElementById('form-cadastro');
+
+        form.addEventListener('submit', function(e) {
+            e.preventDefault(); // Impede a página de recarregar sozinha
+
+            // 1. Captura os dados dos inputs
+            const nomeValue = document.getElementById('nome').value;
+            const emailValue = document.getElementById('email').value;
+            const cpfValue = document.getElementById('cpf').value;
+            
+            // 2. Cria um objeto de usuário
+            const usuarioLocal = {
+                nome: nomeValue,
+                email: emailValue,
+                cpf: cpfValue,
+                tipo: 'local' // Marca que é um cadastro do site, não do Google
+            };
+
+            // 3. Salva no navegador (LocalStorage)
+            // Transforma o objeto em texto para salvar
+            localStorage.setItem('arriaUser', JSON.stringify(usuarioLocal));
+
+            // 4. Feedback e Redirecionamento
+            alert('Cadastro realizado com sucesso! Bem-vindo(a) ' + nomeValue);
+            window.location.href = 'index.html';
+        });
+
+        // --- LÓGICA DO GOOGLE (Mantida e integrada) ---
+        function handleCredentialResponse(response) {
+            const data = jwt_decode(response.credential);
+            
+            // Salva dados do Google no mesmo padrão
+            const usuarioGoogle = {
+                nome: data.given_name,
+                email: data.email,
+                foto: data.picture,
+                tipo: 'google'
+            };
+            
+            localStorage.setItem('arriaUser', JSON.stringify(usuarioGoogle));
+            
+            alert("Login com Google realizado!");
+            window.location.href = "index.html";
+        }
+
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: "351565793574-4mondvcn85i047g1c1f5hqih4skbau3j.apps.googleusercontent.com",
+                callback: handleCredentialResponse
+            });
+        }
+
+        document.getElementById("btn-google-register").addEventListener("click", () => {
+            google.accounts.id.prompt();
+        });
+    </script>
+
+</body>
+</html>
