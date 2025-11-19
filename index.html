@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arria - Home</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="menu-icon"><i class="fa-solid fa-bars"></i></div>
+        
+        <a href="index.html" class="logo">
+            <i class="fa-solid fa-bag-shopping"></i> arria
+        </a>
+
+        <div class="user-actions">
+            <div class="user-item" id="btn-login">
+                <i class="fa-regular fa-user" id="user-icon"></i>
+                <span id="user-name">Bem vindo!<br><strong>Fazer Login</strong></span>
+            </div>
+            <div class="cart-item">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>valor total<br><strong>R$: 0,00</strong></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="novidades">
+            <h2 class="section-title">Novidades</h2>
+            
+            <div class="novidades-container">
+                <div class="card-img">
+                    <img src="https://i.pinimg.com/1200x/72/18/2e/72182e10bc3124175abea589ee043133.jpg" alt="Look Novidade 1">
+                </div>
+                <div class="card-img">
+                    <img src="https://i.pinimg.com/1200x/72/18/2e/72182e10bc3124175abea589ee043133.jpg" alt="Look Novidade 2">
+                </div>
+                <div class="card-img">
+                    <img src="https://i.pinimg.com/1200x/72/18/2e/72182e10bc3124175abea589ee043133.jpg" alt="Look Novidade 3">
+                </div>
+                
+                <div class="intro-text">
+                    <p>Vista-se com confiança, elegância e estilo. Nossas peças foram criadas para transformar qualquer ocasião em um momento especial. Descubra agora a coleção que vai realçar sua personalidade</p>
+                    <a href="produto.html" class="btn-cta">Ver mais</a>
+                </div>
+            </div>
+        </section>
+
+        <section class="protagonista">
+            <div class="grey-container">
+                <h3>Seja a protagonista do seu próprio estilo com o vestido perfeito</h3>
+                
+                <div class="protagonista-content">
+                    <div class="text-col">
+                        <p>Você merece se sentir incrível! Não perca a chance de renovar seu guarda-roupa com um vestido que combina com o seu estilo e sua atitude. Compre agora e receba no conforto da sua casa, com frete rápido e opções de pagamento facilitadas!</p>
+                        <a href="produto.html" class="btn-cta">Ver mais</a>
+                    </div>
+
+                    <div class="images-row">
+                        <img src="https://i.pinimg.com/736x/9e/9e/62/9e9e624ac75748c662837434819f5f9c.jpg" alt="Foto 1">
+                        <img src="https://i.pinimg.com/736x/9e/9e/62/9e9e624ac75748c662837434819f5f9c.jpg" alt="Foto 2">
+                        <img src="https://i.pinimg.com/736x/9e/9e/62/9e9e624ac75748c662837434819f5f9c.jpg" alt="Foto 3">
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // --- LÓGICA DO SCROLL E MOUSE (MENU FIXO) ---
+        let ultimoScroll = 0;
+        const header = document.querySelector("header");
+        const zonaDeAtivacao = 100; 
+
+        window.addEventListener("scroll", () => {
+            const scrollAtual = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollAtual > ultimoScroll && scrollAtual > 50) {
+                header.classList.add("header-escondido");
+            } else {
+                header.classList.remove("header-escondido");
+            }
+            ultimoScroll = scrollAtual <= 0 ? 0 : scrollAtual;
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            if (e.clientY < zonaDeAtivacao) {
+                header.classList.remove("header-escondido");
+            }
+        });
+
+        // --- LÓGICA DO LOGIN GOOGLE ---
+        function handleCredentialResponse(response) {
+            const data = jwt_decode(response.credential);
+            const userName = document.getElementById("user-name");
+            const userIcon = document.getElementById("user-icon");
+
+            // Atualiza nome e foto
+            userName.innerHTML = `Bem vindo!<br><strong>${data.given_name}</strong>`;
+            if(userIcon) {
+                userIcon.outerHTML = `<img src="${data.picture}" class="profile-pic">`;
+            }
+            console.log("Usuário logado: " + data.name);
+        }
+
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: "SEU_CLIENT_ID_DO_GOOGLE_AQUI", // <--- IMPORTANTE: Coloque seu ID aqui
+                callback: handleCredentialResponse,
+                auto_select: false,
+                cancel_on_tap_outside: true
+            });
+        }
+
+        document.getElementById("btn-login").addEventListener("click", () => {
+            google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    console.log("Login fechado ou não exibido");
+                }
+            });
+        });
+    </script>
+
+</body>
+</html>

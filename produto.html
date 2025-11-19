@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arria - Vestido Mikonos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;1,400&family=Playfair+Display:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script src="https://unpkg.com/jwt-decode/build/jwt-decode.js"></script>
+</head>
+<body>
+
+    <header>
+        <div class="menu-icon"><a href="index.html" style="color: inherit;"><i class="fa-solid fa-bars"></i></a></div>
+        
+        <a href="index.html" class="logo">
+            <i class="fa-solid fa-bag-shopping"></i> arria
+        </a>
+
+        <div class="user-actions">
+            <div class="user-item" id="btn-login">
+                <i class="fa-regular fa-user" id="user-icon"></i>
+                <span id="user-name">Bem vindo!<br><strong>Fazer Login</strong></span>
+            </div>
+            <div class="cart-item">
+                <i class="fa-solid fa-cart-shopping"></i>
+                <span>valor total<br><strong>R$: 0,00</strong></span>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="product-container">
+            
+            <div class="product-gallery">
+                <div class="main-image-frame">
+                    <img src="https://i.pinimg.com/736x/cf/d5/73/cfd57319f8456c8ce86abba1fd03d45e.jpg" alt="Vestido Mikonos Costas">
+                </div>
+                <div class="thumbnails-row">
+                    <img src="https://i.pinimg.com/originals/fe/de/8e/fede8efd99a6b9de59708b62fc2446c1.gif" alt="Thumb 1">
+                    <img src="https://i.pinimg.com/originals/fe/de/8e/fede8efd99a6b9de59708b62fc2446c1.gif" alt="Thumb 2">
+                </div>
+            </div>
+
+            <div class="product-info">
+                <h1 class="product-title">Vestido Mikonos</h1>
+                <h2 class="product-subtitle">descrição do produto:</h2>
+
+                <div class="description-list">
+                    <p>✨ Por que escolher este vestido? ✨</p>
+                    <ul>
+                        <li><span>◼</span> Corte impecável – desenho que acentua suas curvas e proporciona um caimento perfeito.</li>
+                        <li><span>◼</span> Tecido de alta qualidade – leve, macio e com durabilidade para acompanhar você por muitas temporadas.</li>
+                        <li><span>◼</span> Versatilidade – ideal para um happy hour, um encontro especial ou até mesmo para brilhar no dia a dia.</li>
+                        <li><span>◼</span> Design exclusivo – detalhes únicos que fazem toda a diferença e garantem um visual cheio de personalidade.</li>
+                    </ul>
+                </div>
+
+                <div class="purchase-card">
+                    
+                    <div class="card-section">
+                        <label>Cores</label>
+                        <div class="color-options">
+                            <div class="color-circle active" style="background-color: #783F48;"></div> 
+                            <div class="color-circle" style="background-color: #455578;"></div> 
+                            <div class="color-circle" style="background-color: #787045;"></div> 
+                            <div class="color-circle" style="background-color: #1a1a1a;"></div> 
+                        </div>
+                    </div>
+
+                    <div class="card-bottom-row">
+                        <div class="size-box">
+                            <label>Tamanho</label>
+                            <span class="size-pill">M</span>
+                        </div>
+                        
+                        <div class="price-action">
+                            <span class="price-tag">R$: 359,90</span>
+                            <button class="btn-buy-now">compre</button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // --- LÓGICA DO SCROLL E MOUSE (MENU FIXO) ---
+        let ultimoScroll = 0;
+        const header = document.querySelector("header");
+        const zonaDeAtivacao = 100; 
+
+        window.addEventListener("scroll", () => {
+            const scrollAtual = window.pageYOffset || document.documentElement.scrollTop;
+
+            if (scrollAtual > ultimoScroll && scrollAtual > 50) {
+                header.classList.add("header-escondido");
+            } else {
+                header.classList.remove("header-escondido");
+            }
+            ultimoScroll = scrollAtual <= 0 ? 0 : scrollAtual;
+        });
+
+        document.addEventListener("mousemove", (e) => {
+            if (e.clientY < zonaDeAtivacao) {
+                header.classList.remove("header-escondido");
+            }
+        });
+
+        // --- LÓGICA DO LOGIN GOOGLE ---
+        function handleCredentialResponse(response) {
+            const data = jwt_decode(response.credential);
+            const userName = document.getElementById("user-name");
+            const userIcon = document.getElementById("user-icon");
+
+            userName.innerHTML = `Bem vindo!<br><strong>${data.given_name}</strong>`;
+            if(userIcon) {
+                userIcon.outerHTML = `<img src="${data.picture}" class="profile-pic">`;
+            }
+            console.log("Usuário logado: " + data.name);
+        }
+
+        window.onload = function () {
+            google.accounts.id.initialize({
+                client_id: "SEU_CLIENT_ID_DO_GOOGLE_AQUI", // <--- IMPORTANTE: Coloque seu ID aqui
+                callback: handleCredentialResponse,
+                auto_select: false,
+                cancel_on_tap_outside: true
+            });
+        }
+
+        document.getElementById("btn-login").addEventListener("click", () => {
+            google.accounts.id.prompt((notification) => {
+                if (notification.isNotDisplayed() || notification.isSkippedMoment()) {
+                    console.log("Login fechado ou não exibido");
+                }
+            });
+        });
+    </script>
+</body>
+</html>

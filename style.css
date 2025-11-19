@@ -1,0 +1,423 @@
+/* --- RESET E GERAL --- */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+    font-family: 'Lora', serif;
+    background-color: #EBE6DA; /* Cor de fundo geral (creme) */
+    color: #1a1a1a;
+    overflow-x: hidden;
+}
+
+/* Títulos em fonte Serifada elegante */
+h1, h2, h3, .logo { font-family: 'Playfair Display', serif; }
+
+/* --- CABEÇALHO (Smart Header) --- */
+header {
+    position: fixed; /* Fixa no topo */
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000; /* Garante que fique acima de tudo */
+    
+    /* Estilo Visual */
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 50px;
+    background-color: #F5EEDC;
+    
+    /* Arredondamento igual da foto (apenas embaixo) */
+    border-radius: 0 0 25px 25px; 
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1); /* Sombra suave */
+    
+    /* Animação suave para esconder/aparecer */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* Classe que o JavaScript vai adicionar para esconder o menu */
+.header-escondido {
+    transform: translateY(-100%); /* Move o menu para cima, fora da tela */
+}
+
+/* Importante: Empurrar o conteúdo para baixo para não ficar escondido atrás do menu fixo */
+body {
+    padding-top: 90px; /* Ajuste conforme a altura do seu header */
+}
+
+.menu-icon { font-size: 24px; cursor: pointer; }
+
+/* --- LOGO CENTRALIZADA E ABSOLUTA --- */
+.logo {
+    /* Posicionamento para garantir o centro exato */
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    
+    /* Estilos do texto e ícone */
+    font-size: 26px;
+    text-transform: lowercase;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    line-height: 1;
+    font-weight: 600;
+    
+    /* Remove o estilo de link (azul/sublinhado) */
+    text-decoration: none;
+    color: #1a1a1a;
+    cursor: pointer;
+}
+.logo i { font-size: 18px; margin-bottom: 4px; }
+
+.user-actions { display: flex; gap: 25px; }
+.user-item, .cart-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    text-align: left;
+}
+.user-actions i { font-size: 22px; }
+
+/* --- ESTILOS NOVOS PARA O LOGIN --- */
+#btn-login {
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+#btn-login:hover {
+    opacity: 0.7;
+}
+
+.profile-pic {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #1a1a1a;
+}
+
+/* --- SEÇÃO NOVIDADES (ESCURA) --- */
+.novidades {
+    /* Degradê Radial para simular a iluminação da foto */
+    background: radial-gradient(circle at center bottom, #2F3A25, #000000); 
+    color: #fff;
+    padding: 40px 60px 80px 60px;
+}
+
+.section-title {
+    font-size: 42px;
+    font-weight: 400;
+    margin-bottom: 30px;
+    color: #EBE6DA;
+}
+
+.novidades-container {
+    display: flex; /* Deixa as imagens e o texto lado a lado */
+    gap: 20px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.card-img {
+    flex: 1; /* Cada imagem ocupa o mesmo espaço */
+    overflow: hidden;
+    border-radius: 15px;
+}
+.card-img img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: 15px;
+    transition: transform 0.3s;
+}
+.card-img img:hover { transform: scale(1.05); }
+
+.intro-text {
+    flex: 1; /* Texto ocupa o mesmo espaço de uma imagem */
+    padding-left: 20px;
+    text-align: right; /* Texto alinhado à direita conforme imagem */
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.intro-text p {
+    font-size: 17px;
+    line-height: 1.6;
+    margin-bottom: 30px;
+    color: #dcdcdc;
+}
+
+/* BOTÃO PADRÃO (Azul Petróleo) */
+.btn-cta {
+    display: inline-block;
+    background-color: #4A707A; /* Cor extraída da imagem */
+    color: #fff;
+    text-decoration: none;
+    padding: 10px 40px;
+    border-radius: 8px;
+    font-family: 'Playfair Display', serif;
+    font-size: 20px;
+    transition: background 0.3s;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+.btn-cta:hover { background-color: #395861; }
+
+/* --- SEÇÃO PROTAGONISTA (CLARA) --- */
+.protagonista {
+    padding: 60px;
+    background-color: #D9D2C5; /* Fundo um pouco mais escuro que o header */
+}
+
+/* Caixa Cinza Arredondada */
+.grey-container {
+    background-color: #E3E3E3; /* Cinza claro */
+    border-radius: 30px;
+    padding: 50px;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+}
+
+.grey-container h3 {
+    text-align: center;
+    font-size: 26px;
+    margin-bottom: 40px;
+    font-weight: 600;
+}
+
+.protagonista-content {
+    display: flex;
+    align-items: center;
+    gap: 40px;
+}
+
+.text-col {
+    flex: 1;
+    text-align: right; /* Alinha texto à direita, próximo das fotos */
+    padding-right: 20px;
+}
+.text-col p {
+    font-size: 18px;
+    line-height: 1.6;
+    margin-bottom: 25px;
+    text-align: left; /* Mantém parágrafo legível */
+}
+.text-col .btn-cta { float: left; } /* Botão à esquerda */
+
+.images-row {
+    flex: 1.5; /* Área das imagens um pouco maior */
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.images-row img {
+    width: 30%;
+    border-radius: 12px;
+    box-shadow: 5px 5px 15px rgba(0,0,0,0.2); /* Sombra nas fotos */
+}
+
+/* --- RESPONSIVIDADE (CELULAR) --- */
+@media (max-width: 900px) {
+    /* Header */
+    header { padding: 15px; }
+    .user-actions span { display: none; } /* Esconde texto, mantém ícones */
+    
+    /* Novidades */
+    .novidades-container { flex-direction: column; }
+    .intro-text { text-align: center; align-items: center; padding: 20px 0; }
+    
+    /* Protagonista */
+    .protagonista { padding: 20px; }
+    .grey-container { padding: 30px 20px; }
+    .protagonista-content { flex-direction: column-reverse; } /* Texto embaixo das fotos */
+    .text-col { text-align: center; padding: 0; }
+    .text-col p { text-align: center; }
+    .text-col .btn-cta { float: none; }
+}
+
+/* --- ESTILOS DA PÁGINA DE PRODUTO (produto.html) --- */
+
+.product-container {
+    display: flex;
+    padding: 60px 80px;
+    gap: 80px; /* Espaço entre as fotos e o texto */
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+/* Galeria de Imagens */
+.product-gallery {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.main-image-frame img {
+    width: 100%;
+    border-radius: 30px; /* Arredondamento grande igual ao Figma */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    display: block;
+}
+
+.thumbnails-row {
+    display: flex;
+    gap: 25px;
+}
+.thumbnails-row img {
+    width: calc(50% - 12.5px); /* Divide espaço igual */
+    border-radius: 20px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+.thumbnails-row img:hover { opacity: 0.8; }
+
+
+/* Informações do Produto */
+.product-info {
+    flex: 1;
+    padding-top: 20px;
+}
+
+.product-title {
+    font-size: 56px;
+    font-weight: 500;
+    margin-bottom: 10px;
+    color: #1a1a1a;
+}
+
+.product-subtitle {
+    font-size: 28px;
+    font-weight: 400;
+    font-style: italic;
+    margin-bottom: 30px;
+    color: #333;
+}
+
+.description-list p {
+    font-weight: 600;
+    margin-bottom: 15px;
+}
+
+.description-list ul {
+    list-style: none;
+    margin-bottom: 40px;
+}
+
+.description-list li {
+    font-size: 16px;
+    line-height: 1.6;
+    margin-bottom: 12px;
+    color: #4a4a4a;
+    display: flex; /* Alinha o quadrado com o texto */
+    gap: 10px;
+}
+.description-list li span {
+    font-size: 18px; /* Tamanho do quadrado preto */
+    line-height: 1.2;
+}
+
+
+/* --- O CARD FLUTUANTE (BOX MARROM) --- */
+.purchase-card {
+    background-color: #2B2216; /* Marrom Café escuro */
+    color: #EBE6DA; /* Cor creme clara para o texto */
+    padding: 35px;
+    border-radius: 35px; /* Cantos bem arredondados */
+    max-width: 450px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+}
+
+.card-section { margin-bottom: 25px; }
+
+.purchase-card label {
+    display: block;
+    font-family: 'Lora', serif;
+    font-size: 18px;
+    margin-bottom: 10px;
+    opacity: 0.9;
+}
+
+/* Cores */
+.color-options { display: flex; gap: 15px; }
+
+.color-circle {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid transparent; /* Borda invisível padrão */
+    box-sizing: content-box; /* Importante para a borda não diminuir a bolinha */
+}
+
+/* Efeito do anel branco ao redor da cor selecionada */
+.color-circle.active {
+    border-color: #2B2216; /* Cor do fundo para espaçamento */
+    box-shadow: 0 0 0 2px #EBE6DA; /* Anel externo claro */
+}
+
+/* Linha de baixo: Tamanho + Preço/Botão */
+.card-bottom-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end; /* Alinha na base */
+}
+
+.size-pill {
+    display: inline-block;
+    background-color: #CEC6B4; /* Bege médio */
+    color: #1a1a1a;
+    padding: 8px 25px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.price-action {
+    text-align: right;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.price-tag {
+    font-family: 'Playfair Display', serif;
+    font-size: 26px;
+    color: #EBE6DA;
+}
+
+.btn-buy-now {
+    background-color: #406573; /* Azul Petróleo do Figma */
+    color: #fff;
+    border: none;
+    padding: 12px 50px;
+    font-size: 22px;
+    font-family: 'Playfair Display', serif;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+    text-transform: lowercase;
+}
+.btn-buy-now:hover {
+    background-color: #2d4a55;
+}
+
+/* RESPONSIVIDADE MOBILE */
+@media (max-width: 900px) {
+    .product-container {
+        flex-direction: column;
+        padding: 20px;
+        gap: 40px;
+    }
+    
+    .product-title { font-size: 36px; }
+    
+    .card-bottom-row {
+        align-items: center; /* Alinha melhor no mobile */
+    }
+    
+    .purchase-card { width: 100%; max-width: 100%; }
+    .btn-buy-now { width: 100%; padding: 15px 0; }
+}
